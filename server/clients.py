@@ -384,31 +384,61 @@ class DefaultDROProtocol(_Singleton):
 class ClientDRO1d7d0(DefaultDROProtocol):
     VERSION_TO_SEND = [1, 7, 0]
 
+    MS_INBOUND = [
+        ('client_toggles', ArgType.STR),
+        ('char_id', ArgType.INT), 
+        ('folder', ArgType.STR),
+        ('outfit', ArgType.STR_OR_EMPTY),
+        ('pre', ArgType.STR_OR_EMPTY), 
+        ('anim', ArgType.STR), 
+        ('showname', ArgType.STR_OR_EMPTY),
+        ('text', ArgType.STR), 
+        ('sfx', ArgType.STR_OR_EMPTY),
+        ('sfx_delay', ArgType.INT), 
+        ('color', ArgType.INT),
+        ('button', ArgType.INT),
+        ('ding', ArgType.INT), 
+        ('keyframe_anim_name', ArgType.STR_OR_EMPTY),
+        ('evidence_name', ArgType.STR_OR_EMPTY),
+        ('video', ArgType.STR_OR_EMPTY)
+    ]
+
     MS_OUTBOUND = [
-        ('msg_type', 0),  # 0
-        ('pre', '-'),  # 1
-        ('folder', '<NOCHAR>'),  # 2
-        ('anim', '../../misc/blank'),  # 3
-        ('msg', ''),  # 4
-        ('pos', 'jud'),  # 5
-        ('sfx', 0),  # 6
-        ('anim_type', 0),  # 7
-        ('char_id', -1),  # 8
-        ('sfx_delay', 0),  # 9
-        ('button', 0),  # 10
-        ('evidence', 0),  # 11
-        ('flip', 0),  # 12
-        ('ding', -1),  # 13
-        ('color', 0),  # 14
-        ('showname', ''),  # 15
-        ('video', '0'),  # 16
-        ('hide_character', 0),  # 17
+        ('client_toggles', '00'),  # 0  # 7
+        ('char_id', -1), 
+        ('folder', '<NOCHAR>'),
+        ('outfit', ''),
+        ('pre', '-'),  # 1  # 2
+        ('anim', '../../misc/blank'),
+        ('showname', ''), 
+        ('msg', ''),  # 5
+        ('sfx', 0), 
+        ('sfx_delay', 0),
+        ('color', 0),
+        ('button', 0),
+        ('ding', -1), 
+        ('keyframe_anim_name', ''), 
+        ('evidence_name', ''),  
+        ('video', '0'),
         ('client_id', -1),  # 18
+        ('server_toggles', '00'),  # 0  # 7
+        ('pos', 'jud'), # 6
         ('offset_x', 0), # 19
+        ('offset_y', 0), # 19
         ('pair_folder', ''), #20
         ('pair_anim', ''), #21
-        ('pair_flip', 0), #22
-        ('pair_offset_x', 0), # 23
+        ('pair_offset_x', 0),
+        ('pair_offset_y', 0)
+    ]
+
+    SCENE_OUTBOUND = [
+        ('area_name', ArgType.STR),  
+        ('bg_image', ArgType.STR)
+    ]
+    
+    ANI_OUTBOUND = [
+        ('aniName', ArgType.STR),  
+        ('custom_value', ArgType.STR)
     ]
 
     EVA_INBOUND = [

@@ -303,6 +303,15 @@ class AreaManager(AssetManager):
                 target_client.send_command_dict('LP', {
                     'player_data_ao2_list': player_stuff
                 })
+
+
+        def broadcast_animation(self, animation_name: str = None):
+            """
+            Sends the play animation command to every client in the area.
+            """
+            for target_client in self.clients:
+                target_client.send_player_anim(animation_name)
+
         def broadcast_player_list_prompt(self):
             """
             Send the player list prompt packet to everyone in the area.

@@ -193,7 +193,7 @@ def net_cmd_id(client: ClientManager.Client, pargs: Dict[str, Any]):
                         'noencryption', 'deskmod', 'evidence', 'cccc_ic_support', 'looping_sfx',
                         'additive', 'effects', 'y_offset',
                         # DRO exclusive stuff
-                        'ackMS', 'showname', 'chrini', 'charscheck', 'v110', ]
+                        'ackMS', 'showname', 'chrini', 'charscheck', 'v110', 'v2']
     })
 
     client.send_command_dict('client_version', {
@@ -358,6 +358,36 @@ def net_cmd_ms(client: ClientManager.Client, pargs: Dict[str, Any]):
     if not client.area.can_send_message():
         return
 
+    # Read the bits and set the parameters for backwards compatibility purposes.
+    if not pargs['client_toggles']:
+        client.send_ooc('This is a legacy client, please consider updating.')
+    else: 
+        if len(pargs['client_toggles']) % 2 != 0:
+            client.send_ooc('Client sent invalid toggles to server.')
+            return
+        
+        toggle_values = []
+
+        for i in range(0, len(pargs['client_toggles']), 2):
+            byte_string = pargs['client_toggles'][i:i+2]
+            try:
+                byte = int(byte_string, 16)
+            except ValueError:
+                client.send_ooc('Client sent invalid hex value to server.')
+                return
+
+            for j in range(8):
+                bit = (byte >> (7 - j)) & 0x01
+                toggle_values.append(bool(bit))
+            
+            pargs['msg_type'] = '1' if toggle_values[0] else '0'
+            pargs['anim_type'] = 1 if toggle_values[1] else 0
+            pargs['flip'] = 1 if toggle_values[2] else 0
+            pargs['hide_character'] = 1 if toggle_values[3] else 0
+            pargs['character_type'] = 3 if toggle_values[4] else 0
+            
+
+
     # Trim out any leading/trailing whitespace characters up to a chain of spaces
     pargs['text'] = Constants.trim_extra_whitespace(pargs['text'])
     # Check if after all of this, the message is empty. If so, ignore
@@ -381,12 +411,16 @@ def net_cmd_ms(client: ClientManager.Client, pargs: Dict[str, Any]):
     if pargs['folder'] in client.area.restricted_chars and not client.is_staff():
         client.send_ooc('Your character is restricted in this area.')
         return
+        
     if pargs['msg_type'] not in ('chat', '0', '1'):
         return
     if pargs['anim_type'] not in (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10):
         return
+        
     if pargs['char_id'] != client.char_id:
         return
+
+        
     if Constants.includes_relative_directories(pargs['sfx']):
         client.send_ooc(f'Sound effects and voicelines may not not reference parent or '
                         f'current directories: {pargs["sfx"]}')
@@ -395,17 +429,21 @@ def net_cmd_ms(client: ClientManager.Client, pargs: Dict[str, Any]):
         return
     if pargs['button'] not in (0, 1, 2, 3, 4, 5, 6, 7, 8):  # Shouts
         return
+        
     if pargs['button'] > 0 and not client.area.bullet and not client.is_staff():
         client.send_ooc('Bullets are disabled in this area.')
         return
-    if pargs['evidence'] < 0:
-        return
+
+    #if pargs['evidence'] < 0:
+    #    return
+        
     if pargs['ding'] not in (0, 1, 2, 3, 4, 5, 6, 7, 8):  # Effects
         return
     if pargs['color'] not in (0, 1, 2, 3, 4, 5, 6, 7, 8):
         return
     if pargs['color'] == 5 and not client.is_officer():
         pargs['color'] = 0
+        
     if client.pos:
         pargs['pos'] = client.pos
     else:
@@ -493,14 +531,14 @@ def net_cmd_ms(client: ClientManager.Client, pargs: Dict[str, Any]):
             if login + password in msg:
                 msg = msg.replace(password, '[CENSORED]')
 
-    if pargs['evidence'] and pargs['evidence'] in client.evi_list:
-        evidence_position = client.evi_list[pargs['evidence']] - 1
-        if client.area.evi_list.evidences[evidence_position].pos != 'all':
-            client.area.evi_list.evidences[evidence_position].pos = 'all'
-            client.area.broadcast_evidence_list()
-        pargs['evidence'] = client.evi_list[pargs['evidence']]
-    else:
-        pargs['evidence'] = 0
+    #if pargs['evidence'] and pargs['evidence'] in client.evi_list:
+        #evidence_position = client.evi_list[pargs['evidence']] - 1
+        #if client.area.evi_list.evidences[evidence_position].pos != 'all':
+        #    client.area.evi_list.evidences[evidence_position].pos = 'all'
+        #    client.area.broadcast_evidence_list()
+        #pargs['evidence'] = client.evi_list[pargs['evidence']]
+    #else:
+        #pargs['evidence'] = 0
 
     # If client has GlobalIC enabled, set area range target to intended range and remove
     # GlobalIC prefix if needed.

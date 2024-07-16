@@ -12491,6 +12491,27 @@ def ooc_cmd_hide_icon(client: ClientManager.Client, arg: str):
     message = f'You have {status[client.icon_visible]} your character icon.'
     client.send_ooc(message, localization=localizationType, loc_var_one=status[client.icon_visible])
 
+def ooc_cmd_play_animation(client: ClientManager.Client, arg: str):
+    """
+    Set the weather in an area
+
+    SYNTAX
+    /set_weather <range_start> <range_end> <name>
+    """
+    
+    if not client.is_staff:
+        client.send_ooc('You are not authorized to run this command.')
+        return
+
+    args = arg.split(' ')
+    
+    if len(args) == 0:
+        return
+    
+    client.area.broadcast_animation(args[0])
+    client.send_ooc(f'Now playing animation with name of {args[0]} to the area.')
+    #client.send_ooc(message, localization=localizationType, loc_var_one=status[client.icon_visible])
+
 def ooc_cmd_set_weather(client: ClientManager.Client, arg: str):
     """
     Set the weather in an area

@@ -792,6 +792,14 @@ class ClientManager:
                 self.send_ic(msg='', hide_character=1,
                              bypass_text_replace=True)
 
+        def send_player_anim(self, animation_name: str = None):
+            if animation_name is None:
+                return
+            self.send_command_dict('ANI', {
+                'aniName': animation_name,
+                'custom_value': ''
+            })
+
         def send_character_list(self, characters: List[str] = None):
             if characters is None:
                 characters = self.hub.character_manager.get_characters()

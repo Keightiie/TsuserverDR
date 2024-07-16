@@ -833,6 +833,12 @@ class ClientChangeArea:
         if old_area.hub != area.hub:
             in_new_hub = f' in new hub {area.hub.get_numerical_id()}'
 
+        client.send_command_dict('SCENE', {
+            'area_name': area.name,
+            'bg_image': area.background
+        })
+
+
         client.send_ooc(f'Changed area to {area.name}.{populated_message}')
         logger.log_server(f'[{client.get_char_name()}]Changed area from '
                           f'{old_area.name} ({old_area.id}) to '
