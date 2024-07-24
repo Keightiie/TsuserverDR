@@ -433,7 +433,8 @@ class ClientDRO1d7d0(DefaultDROProtocol):
 
     SCENE_OUTBOUND = [
         ('area_name', ArgType.STR),  
-        ('bg_image', ArgType.STR)
+        ('bg_image', ArgType.STR),  
+        ('map', ArgType.STR)
     ]
     
     ANI_OUTBOUND = [

@@ -124,6 +124,7 @@ class AreaManager(AssetManager):
             self.name = parameters['area']
             self.background = parameters['background']
             self.weather = parameters['weather']
+            self.map_visual = parameters['map_visual']
             self.background_tod = parameters['background_tod']
             self.bg_lock = parameters['bglock']
             self.evidence_mod = parameters['evidence_mod']

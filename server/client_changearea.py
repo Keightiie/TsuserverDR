@@ -835,7 +835,8 @@ class ClientChangeArea:
 
         client.send_command_dict('SCENE', {
             'area_name': area.name,
-            'bg_image': area.background
+            'bg_image': area.background,
+            'map': area.map_visual
         })
 
 

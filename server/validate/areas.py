@@ -53,6 +53,7 @@ class ValidateAreas(Validate):
             'lobby_area': False,
             'locking_allowed': False,
             'private_area': False,
+            'map_visual': 'None',
             'weather': '',
             'reachable_areas': '<ALL>',
             'visible_areas': '<REACHABLE_AREAS>',
