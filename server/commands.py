@@ -12536,3 +12536,28 @@ def ooc_cmd_set_weather(client: ClientManager.Client, arg: str):
         
 
     #client.send_ooc(message, localization=localizationType, loc_var_one=status[client.icon_visible])
+
+def ooc_cmd_set_invest(client: ClientManager.Client, arg: str):
+    """
+    Set the investigation Base64 in the area.
+
+    SYNTAX
+    /set_weather <range_start> <range_end> <name>
+    """
+    
+    args = arg.split(' ')
+    
+
+    if not client.is_staff:
+        client.send_ooc('You are not authorized to run this command.')
+        return
+
+    args = arg.split(' ')
+    
+    if len(args) == 0:
+        return
+    
+    client.area.investigation = args[0]
+    client.area.broadcast_investigation()
+    client.send_ooc(f'You have updated the investigation in the area.')
+        

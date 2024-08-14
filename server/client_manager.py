@@ -807,6 +807,11 @@ class ClientManager:
                 'chars_ao2_list': characters,
             })
 
+        def send_investigation(self):
+            self.send_command_dict('INVES', {
+                'enc_text': self.area.investigation
+            })
+
         def send_weather(self):
             self.send_command_dict('WEA', {
                 'name': self.area.weather
@@ -850,6 +855,7 @@ class ClientManager:
                 'tod_backgrounds_ao2_list': tod_backgrounds_ao2_list,
             })
             self.send_weather()
+            self.send_investigation()
 
 
         def send_evidence_list(self):

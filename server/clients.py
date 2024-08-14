@@ -437,6 +437,10 @@ class ClientDRO1d7d0(DefaultDROProtocol):
         ('map', ArgType.STR)
     ]
     
+    INVES_OUTBOUND = [
+        ('enc_text', ArgType.STR)
+    ]
+    
     ANI_OUTBOUND = [
         ('aniName', ArgType.STR),  
         ('custom_value', ArgType.STR)

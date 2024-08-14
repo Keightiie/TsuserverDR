@@ -124,6 +124,7 @@ class AreaManager(AssetManager):
             self.name = parameters['area']
             self.background = parameters['background']
             self.weather = parameters['weather']
+            self.investigation = parameters['investigation']
             self.map_visual = parameters['map_visual']
             self.background_tod = parameters['background_tod']
             self.bg_lock = parameters['bglock']
@@ -608,6 +609,14 @@ class AreaManager(AssetManager):
 
             client.evi_list, evi_list = self.evi_list.create_evi_list(client)
             return evi_list
+
+        def broadcast_investigation(self):
+            """
+
+            """
+
+            for client in self.clients:
+                client.send_investigation()
 
         def broadcast_weather(self):
             """
